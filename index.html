@@ -42,51 +42,46 @@
 
   <div id="results"></div>
 </div>
-
 <script>
-  // 蔬菜資料庫（可以無限新增）
-  const veggies = {
-    "高麗菜":{
-      tips:[
-        "選擇葉片緊密、頭重的比較新鮮。",
-        "切口要白、不要有褐色或乾燥。",
-        "外層不要過於亮綠（可能太老）。"
-      ],
-      store:"整顆冷藏可放 1 週以上；切開後用保鮮膜包緊。"
-    },
-    "番茄":{
-      tips:[
-        "越重表示汁多。",
-        "表皮平滑、有光澤但不要太硬。",
-        "紅度均勻的熟度最好。"
-      ],
-      store:"常溫保存風味最佳；熟透再放冰箱延長 2–3 天。"
-    },
-    "玉米":{
-      tips:[
-        "外葉越綠越新鮮。",
-        "玉米鬚越多、越濕代表越好。",
-        "用手按粒子要飽滿、不能軟。"
-      ],
-      store:"帶殼冷藏 2–3 天；越快煮越甜。"
-    },
-    "空心菜":{
-      tips:[
-        "葉片要亮綠、不要黃邊。",
-        "莖越細越嫩。",
-        "折起來要脆，不要韌。"
-      ],
-      store:"用紙巾包住放冷藏，可放 2–3 天。"
-    },
-    "紅蘿蔔":{
-      tips:[
-        "選表皮平滑、橘色深的。",
-        "根部越細越嫩。",
-        "不要買有裂痕的。"
-      ],
-      store:"冷藏 1–2 週，葉子要先切掉避免水分流失。"
-    }
-  };
+const veggies = {
+  "高麗菜":{
+    img:"https://upload.wikimedia.org/wikipedia/commons/6/6f/Cabbage_and_cross_section_on_white.jpg",
+    tips:[
+      "選葉片緊密、拿起來有重量感的。",
+      "切口要白淨、不乾裂。",
+      "避免外葉太亮綠。"
+    ],
+    store:"整顆冷藏約 1 週；切開後包好。"
+  },
+  "番茄":{
+    img:"https://upload.wikimedia.org/wikipedia/commons/8/88/Bright_red_tomato_and_cross_section02.jpg",
+    tips:[
+      "外皮光滑、色澤均勻。",
+      "拿起來沉甸甸的較多汁。",
+      "蒂頭新鮮不乾枯。"
+    ],
+    store:"常溫保存風味佳，熟透後可冷藏。"
+  },
+  "玉米":{
+    img:"https://upload.wikimedia.org/wikipedia/commons/6/67/Corncobs.jpg",
+    tips:[
+      "外殼綠、玉米鬚濕潤。",
+      "玉米粒飽滿。",
+      "越新鮮越甜。"
+    ],
+    store:"冷藏 2–3 天，越快煮越好。"
+  },
+  "空心菜":{
+    img:"https://upload.wikimedia.org/wikipedia/commons/5/57/Ipomoea_aquatica.jpg",
+    tips:[
+      "莖細嫩、葉片完整。",
+      "折起來要清脆。",
+      "無黑斑。"
+    ],
+    store:"冷藏 2–3 天內食用。"
+  }
+};
+</script>
 
   function searchVeg(){
     const keyword = document.getElementById("searchInput").value.trim();
