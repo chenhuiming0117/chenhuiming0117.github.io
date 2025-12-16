@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>市場蔬菜購買技巧查詢</title>
+<title>農夫市集-蔬菜購買技巧查詢</title>
 
 <style>
+/* 基本字體與背景 */
 body{
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto;
-  background:#f5f7fa;
+  font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", Roboto;
+  background:#FFF8F0;  /* 米色背景 */
   margin:0;
   padding:20px;
 }
@@ -18,49 +19,90 @@ body{
 }
 h1{
   text-align:center;
+  font-size:28px;
+  margin-bottom:20px;
+  color:#4E342E;
 }
+/* 搜尋框 */
 .search-box{
-  background:white;
+  background:#FFF5E1;
   padding:16px;
-  border-radius:12px;
-  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  border-radius:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom:20px;
 }
 input{
   width:100%;
-  padding:12px;
+  padding:14px;
   font-size:16px;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
-.tip-card{
-  background:white;
-  margin-top:14px;
-  padding:16px;
   border-radius:12px;
-  box-shadow:0 3px 10px rgba(0,0,0,0.06);
+  border:1px solid #D7CCC8;
+  outline:none;
+}
+input:focus{
+  border-color:#FF7043;
+  box-shadow:0 0 6px rgba(255,112,67,0.5);
+}
+
+/* 蔬菜卡片 */
+.tip-card{
+  background:#FFF3E0;
+  margin-top:16px;
+  padding:16px;
+  border-radius:18px;
+  box-shadow:0 6px 12px rgba(0,0,0,0.08);
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.tip-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 20px rgba(0,0,0,0.15);
 }
 .name{
-  font-size:20px;
+  font-size:22px;
   font-weight:700;
+  color:#BF360C;
 }
 .muted{
-  color:#666;
+  color:#6D4C41;
   font-size:14px;
 }
 img{
   width:100%;
   max-height:200px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:12px;
   margin:8px 0;
+  border:2px solid #FFD54F;
+}
+
+/* 小圓點列表風格 */
+ul{
+  list-style: '🍃 ' inside;
+  padding-left:0;
+  margin:8px 0;
+}
+
+/* 手繪風按鈕（可選） */
+.button{
+  display:inline-block;
+  padding:8px 16px;
+  background:#FFAB91;
+  color:white;
+  border-radius:12px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:10px;
+}
+.button:hover{
+  background:#FF7043;
 }
 </style>
 </head>
 
 <body>
 <div class="container">
-
-  <h1>🥬 市場蔬菜購買技巧查詢</h1>
+  <h1>🍅 農夫市集蔬菜購買技巧查詢</h1>
 
   <div class="search-box">
     <input
@@ -71,83 +113,56 @@ img{
   </div>
 
   <div id="results"></div>
-
 </div>
 
 <script>
 const veggies = {
   "高麗菜":{
     img:"https://upload.wikimedia.org/wikipedia/commons/6/6f/Cabbage_and_cross_section_on_white.jpg",
-    tips:[
-      "選葉片緊密、拿起來有重量感的。",
-      "切口要白淨、不乾裂。",
-      "外葉不要太亮綠。"
-    ],
-    store:"整顆冷藏約 1 週；切開後包好保存。"
+    tips:["葉片緊密、拿起來有重量感","切口白淨、不乾裂","外葉不要太亮綠"],
+    store:"整顆冷藏約 1 週；切開後包好保存"
   },
   "番茄":{
     img:"https://upload.wikimedia.org/wikipedia/commons/8/88/Bright_red_tomato_and_cross_section02.jpg",
-    tips:[
-      "表皮光滑、色澤均勻。",
-      "拿起來沉甸甸的較多汁。",
-      "蒂頭新鮮不乾枯。"
-    ],
-    store:"常溫保存風味佳，熟透後冷藏 2–3 天。"
+    tips:["表皮光滑、色澤均勻","拿起來沉甸甸較多汁","蒂頭新鮮不乾枯"],
+    store:"常溫保存風味佳；熟透後冷藏 2–3 天"
   },
   "玉米":{
     img:"https://upload.wikimedia.org/wikipedia/commons/6/67/Corncobs.jpg",
-    tips:[
-      "外殼翠綠、玉米鬚濕潤。",
-      "玉米粒飽滿不凹陷。",
-      "越新鮮越甜。"
-    ],
-    store:"冷藏 2–3 天，越快煮越好。"
+    tips:["外殼翠綠、玉米鬚濕潤","玉米粒飽滿不凹陷","越新鮮越甜"],
+    store:"冷藏 2–3 天，越快煮越好"
   },
   "空心菜":{
     img:"https://upload.wikimedia.org/wikipedia/commons/5/57/Ipomoea_aquatica.jpg",
-    tips:[
-      "莖細嫩、葉片完整。",
-      "折起來要清脆。",
-      "沒有黑斑。"
-    ],
-    store:"冷藏 2–3 天內食用最佳。"
+    tips:["莖細嫩、葉片完整","折起來要清脆","沒有黑斑"],
+    store:"冷藏 2–3 天內食用最佳"
   },
   "紅蘿蔔":{
     img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg",
-    tips:[
-      "表皮平滑、橘色深。",
-      "根部細的較嫩。",
-      "避免裂痕。"
-    ],
-    store:"冷藏可放 1–2 週，葉子先切掉。"
-  }
+    tips:["表皮平滑、橘色深","根部細的較嫩","避免裂痕"],
+    store:"冷藏可放 1–2 週，葉子先切掉"
+  },
+  /* 其他 45 種蔬菜省略，請直接沿用之前完整 50 種資料庫 */
 };
 
 function searchVeg(){
   const keyword = document.getElementById("searchInput").value.trim();
   const box = document.getElementById("results");
-
   box.innerHTML = "";
   if(keyword === "") return;
 
   Object.keys(veggies).forEach(name=>{
     if(name.includes(keyword)){
       const data = veggies[name];
-
       const html = `
         <div class="tip-card">
           <div class="name">${name}</div>
           <img src="${data.img}" alt="${name}">
           <div><strong>挑選技巧：</strong></div>
-          <ul>
-            ${data.tips.map(t => `<li>${t}</li>`).join("")}
-          </ul>
-          <div class="muted">
-            <strong>保存方式：</strong>${data.store}
-          </div>
+          <ul>${data.tips.map(t => `<li>${t}</li>`).join("")}</ul>
+          <div class="muted"><strong>保存方式：</strong>${data.store}</div>
         </div>
       `;
-
       box.innerHTML += html;
     }
   });
@@ -157,6 +172,6 @@ function searchVeg(){
   }
 }
 </script>
-
 </body>
 </html>
+
