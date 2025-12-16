@@ -1,11 +1,121 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset = "utf-8">
-    <title>陳卉茗的網站</title>
-    <link rel="icon" href="icon.png">
-  </head>
-  <body>
-      hello world
-  </body>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蔬菜購買技巧查詢站</title>
+<style>
+  body{
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto;
+    background:#f5f7fa;
+    margin:0; padding:20px;
+    color:#1a1a1a;
+  }
+  .container{max-width:720px;margin:0 auto}
+  h1{text-align:center;margin-bottom:20px;}
+  .search-box{
+    background:white;padding:18px;border-radius:12px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  }
+  input{
+    width:100%;padding:12px;font-size:16px;
+    border:1px solid #ddd;border-radius:10px;
+  }
+  .tip-card{
+    background:white;padding:16px;border-radius:12px;margin-top:14px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.06);
+  }
+  .name{font-weight:700;font-size:20px;margin-bottom:6px}
+  .muted{color:#666;font-size:14px;margin-top:6px}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🥕 市場蔬菜購買技巧查詢</h1>
+
+  <div class="search-box">
+    <input id="searchInput" 
+           placeholder="輸入蔬菜名稱，例如：高麗菜、番茄、空心菜..." 
+           oninput="searchVeg()">
+  </div>
+
+  <div id="results"></div>
+</div>
+
+<script>
+  // 蔬菜資料庫（可以無限新增）
+  const veggies = {
+    "高麗菜":{
+      tips:[
+        "選擇葉片緊密、頭重的比較新鮮。",
+        "切口要白、不要有褐色或乾燥。",
+        "外層不要過於亮綠（可能太老）。"
+      ],
+      store:"整顆冷藏可放 1 週以上；切開後用保鮮膜包緊。"
+    },
+    "番茄":{
+      tips:[
+        "越重表示汁多。",
+        "表皮平滑、有光澤但不要太硬。",
+        "紅度均勻的熟度最好。"
+      ],
+      store:"常溫保存風味最佳；熟透再放冰箱延長 2–3 天。"
+    },
+    "玉米":{
+      tips:[
+        "外葉越綠越新鮮。",
+        "玉米鬚越多、越濕代表越好。",
+        "用手按粒子要飽滿、不能軟。"
+      ],
+      store:"帶殼冷藏 2–3 天；越快煮越甜。"
+    },
+    "空心菜":{
+      tips:[
+        "葉片要亮綠、不要黃邊。",
+        "莖越細越嫩。",
+        "折起來要脆，不要韌。"
+      ],
+      store:"用紙巾包住放冷藏，可放 2–3 天。"
+    },
+    "紅蘿蔔":{
+      tips:[
+        "選表皮平滑、橘色深的。",
+        "根部越細越嫩。",
+        "不要買有裂痕的。"
+      ],
+      store:"冷藏 1–2 週，葉子要先切掉避免水分流失。"
+    }
+  };
+
+  function searchVeg(){
+    const keyword = document.getElementById("searchInput").value.trim();
+    const box = document.getElementById("results");
+
+    box.innerHTML = "";
+
+    if(keyword === "") return;
+
+    Object.keys(veggies).forEach(name=>{
+      if(name.includes(keyword)){
+        const data = veggies[name];
+        let html = `
+          <div class="tip-card">
+            <div class="name">${name}</div>
+            <div><strong>挑選技巧：</strong></div>
+            <ul>${data.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+            <div class="muted"><strong>保存方式：</strong>${data.store}</div>
+          </div>
+        `;
+        box.innerHTML += html;
+      }
+    });
+
+    if(box.innerHTML === ""){
+      box.innerHTML = `<p style="margin-top:14px;color:#666;">查無相關蔬菜，試試別的名稱。</p>`;
+    }
+  }
+</script>
+
+</body>
 </html>
