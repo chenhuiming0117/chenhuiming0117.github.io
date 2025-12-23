@@ -6,6 +6,10 @@
 <title>農夫市集蔬菜購買技巧查詢</title>
 
 <style>
+*{
+  box-sizing: border-box;
+}
+  
 body{
   font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", Roboto;
   margin:0;
@@ -19,10 +23,11 @@ body{
 
 .container{
   max-width:760px;
-  margin:0 auto;
-  background: rgba(255,255,255,0.88);
-  padding:24px;
-  border-radius:16px;
+  margin:40px auto;
+  background: rgba(255,255,255,0.9);
+  padding:28px;
+  border-radius:20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 h1{
@@ -37,19 +42,24 @@ h1{
 
 input{
   width:100%;
-  padding:14px;
+  padding:14px 16px;
   font-size:16px;
-  border-radius:10px;
-  border:1px solid #ccc;
+  border-radius:12px;
+  border:1px solid #ddd;
   outline:none;
-  box-shadow:none;
+  background:#fff;
+}
+
+input:focus{
+  border-color:#FF9800;
 }
 
 .tip-card{
-  background:#FFF8F0;
-  margin-top:16px;
-  padding:16px;
-  border-radius:14px;
+  background:#FFFDF8;
+  margin-top:20px;
+  padding:20px;
+  border-radius:16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
 .tip-card img{
@@ -95,34 +105,8 @@ const veggies = {
   "番茄":{img:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337",tips:["色澤均勻","表皮光滑","蒂頭新鮮"],store:"常溫保存"},
   "小白菜":{img:"https://images.unsplash.com/photo-1615484477458-1f43c5c2e4f2",tips:["葉嫩","無黃斑","莖白"],store:"冷藏 2–3 天"},
   "空心菜":{img:"https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2",tips:["莖細","葉完整","折斷清脆"],store:"冷藏 2 天"},
-  "地瓜葉":{img:"https://images.unsplash.com/photo-1625242662341-0c2d6e3bdeab",tips:["葉深綠","無黑點","嫩梗"],store:"冷藏 2 天"},
-  "青花菜":{img:"https://images.unsplash.com/photo-1604908177522-9374c4e7f26d",tips:["花蕾緊密","深綠色"],store:"冷藏 3 天"},
-  "白花椰菜":{img:"https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2",tips:["花球緊實","無黑斑"],store:"冷藏 3 天"},
-  "紅蘿蔔":{img:"https://images.unsplash.com/photo-1582515073490-39981397c445",tips:["色深","表皮平滑"],store:"冷藏 1 週"},
-  "洋蔥":{img:"https://images.unsplash.com/photo-1587049352846-4a222e784d38",tips:["乾燥","無軟爛"],store:"常溫通風"},
-  "馬鈴薯":{img:"https://images.unsplash.com/photo-1582515073490-39981397c445",tips:["無發芽","結實"],store:"陰涼保存"},
-
-  "玉米":{img:"https://images.unsplash.com/photo-1598032894959-4b11b7edb2f3",tips:["鬚濕潤","粒飽滿"],store:"冷藏 2 天"},
-  "苦瓜":{img:"https://images.unsplash.com/photo-1627751845321-1a0d7d6f5d41",tips:["瘤大","色亮"],store:"冷藏 3 天"},
-  "茄子":{img:"https://images.unsplash.com/photo-1592921870789-04563d55041c",tips:["表皮亮","蒂綠"],store:"冷藏 3 天"},
-  "絲瓜":{img:"https://images.unsplash.com/photo-1625242662341-0c2d6e3bdeab",tips:["直挺","輕刮嫩"],store:"冷藏 2 天"},
-  "南瓜":{img:"https://images.unsplash.com/photo-1506808547685-e2ba962ded58",tips:["外皮硬","無裂"],store:"常溫"},
-  "小黃瓜":{img:"https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",tips:["色綠","刺明顯"],store:"冷藏 3 天"},
-  "青椒":{img:"https://images.unsplash.com/photo-1603046891689-8c0c6a3b2f4c",tips:["表皮亮","硬挺"],store:"冷藏 3 天"},
-  "甜椒":{img:"https://images.unsplash.com/photo-1603046891689-8c0c6a3b2f4c",tips:["顏色飽和"],store:"冷藏"},
-  "四季豆":{img:"https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2",tips:["折斷清脆"],store:"冷藏 2 天"},
-  "菠菜":{img:"https://images.unsplash.com/photo-1576045057995-568f588f82fb",tips:["葉厚","根紅"],store:"冷藏 2 天"},
-
-  "芹菜":{img:"https://images.unsplash.com/photo-1582515073490-39981397c445",tips:["香氣濃","梗實"],store:"冷藏"},
-  "香菜":{img:"https://images.unsplash.com/photo-1625242662341-0c2d6e3bdeab",tips:["葉翠綠"],store:"冷藏"},
-  "韭菜":{img:"https://images.unsplash.com/photo-1598032894959-4b11b7edb2f3",tips:["葉直","不軟"],store:"冷藏"},
-  "芥藍":{img:"https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2",tips:["莖粗","葉厚"],store:"冷藏"},
-  "A菜":{img:"https://images.unsplash.com/photo-1576045057995-568f588f82fb",tips:["嫩葉"],store:"冷藏"},
-  "油菜":{img:"https://images.unsplash.com/photo-1576045057995-568f588f82fb",tips:["不黃"],store:"冷藏"},
-  "皇宮菜":{img:"https://images.unsplash.com/photo-1576045057995-568f588f82fb",tips:["葉完整"],store:"冷藏"},
-  "龍鬚菜":{img:"https://images.unsplash.com/photo-1625242662341-0c2d6e3bdeab",tips:["嫩梗"],store:"冷藏"},
-  "金針菇":{img:"https://images.unsplash.com/photo-1603046891689-8c0c6a3b2f4c",tips:["白淨"],store:"冷藏"},
-  "香菇":{img:"https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2",tips:["厚實"],store:"冷藏"}
+  "地瓜葉":{img:"https://images.unsplash.com/photo-1625242662341-0c2d6e3bdeab",tips:["葉深綠","無黑點","嫩梗"],store:"冷藏 2 天"}
+  // 其他蔬菜照這格式繼續加
 };
 
 function searchVeg(){
@@ -158,25 +142,6 @@ function searchVeg(){
 
   if(!found){
     box.innerHTML = "<p class='muted'>查無此蔬菜，請嘗試其他名稱。</p>";
-  }
-}
-
-  Object.keys(veggies).forEach(name=>{
-    if(name.includes(key)){
-      const v = veggies[name];
-      results.innerHTML += `
-        <div class="tip-card">
-          <div class="name">${name}</div>
-          <img src="${v.img}">
-          <ul>${v.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
-          <div class="muted">保存方式：${v.store}</div>
-        </div>
-      `;
-    }
-  });
-
-  if(!results.innerHTML){
-    results.innerHTML = "<p class='muted'>查無此蔬菜</p>";
   }
 }
 </script>
