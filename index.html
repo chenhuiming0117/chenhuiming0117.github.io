@@ -3,320 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>市場蔬菜購買技巧查詢</title>
+<title>農夫市集蔬菜購買技巧</title>
 
 <style>
 body{
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto;
-  background:#f5f7fa;
   margin:0;
+  font-family:"Noto Sans TC", system-ui, sans-serif;
+  background-image:
+    linear-gradient(rgba(255,245,230,0.88), rgba(255,245,230,0.88)),
+    url("https://images.unsplash.com/photo-1542838132-92c53300491e");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+.container{
+  max-width:800px;
+  margin:auto;
   padding:20px;
 }
-.container{
-  max-width:720px;
-  margin:0 auto;
-}
+
 h1{
   text-align:center;
+  color:#4E342E;
+  margin-bottom:20px;
 }
+
 .search-box{
-  background:white;
+  background:#fff5e1;
   padding:16px;
-  border-radius:12px;
-  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  border-radius:18px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
+
 input{
   width:100%;
-  padding:12px;
+  padding:14px;
   font-size:16px;
-  border-radius:10px;
+  border-radius:12px;
   border:1px solid #ccc;
 }
+
 .tip-card{
-  background:white;
-  margin-top:14px;
+  background:#fff3e0;
+  margin-top:18px;
   padding:16px;
-  border-radius:12px;
-  box-shadow:0 3px 10px rgba(0,0,0,0.06);
+  border-radius:18px;
+  box-shadow:0 6px 12px rgba(0,0,0,.1);
 }
-.name{
-  font-size:20px;
-  font-weight:700;
-}
-.muted{
-  color:#666;
-  font-size:14px;
-}
-img{
+
+.tip-card img{
   width:100%;
   max-height:200px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:12px;
   margin:8px 0;
+}
+
+.name{
+  font-size:22px;
+  font-weight:bold;
+  color:#BF360C;
+}
+
+ul{
+  list-style:"🥬 ";
+  padding-left:0;
+}
+
+.muted{
+  color:#5D4037;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 <div class="container">
-
-  <h1>🥬 市場蔬菜購買技巧查詢</h1>
+  <h1>🥕 農夫市集蔬菜購買技巧</h1>
 
   <div class="search-box">
-    <input
-      id="searchInput"
-      placeholder="輸入蔬菜名稱，例如：高麗菜、番茄、空心菜"
-      oninput="searchVeg()"
-    >
+    <input id="searchInput" placeholder="輸入蔬菜名稱（例：番茄、地瓜）" oninput="searchVeg()">
   </div>
 
   <div id="results"></div>
-
 </div>
 
 <script>
 const veggies = {
-  "高麗菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/6f/Cabbage_and_cross_section_on_white.jpg",
-    tips:["葉片緊密、拿起來有重量感","切口白淨、不乾裂","外葉不要太亮綠"],
-    store:"整顆冷藏約 1 週；切開後包好保存"
-  },
-  "番茄":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/8/88/Bright_red_tomato_and_cross_section02.jpg",
-    tips:["表皮光滑、色澤均勻","拿起來沉甸甸較多汁","蒂頭新鮮不乾枯"],
-    store:"常溫保存風味佳；熟透後冷藏 2–3 天"
-  },
-  "玉米":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/67/Corncobs.jpg",
-    tips:["外殼翠綠、玉米鬚濕潤","玉米粒飽滿不凹陷","越新鮮越甜"],
-    store:"冷藏 2–3 天，越快煮越好"
-  },
-  "空心菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/5/57/Ipomoea_aquatica.jpg",
-    tips:["莖細嫩、葉片完整","折起來要清脆","沒有黑斑"],
-    store:"冷藏 2–3 天內食用最佳"
-  },
-  "紅蘿蔔":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg",
-    tips:["表皮平滑、橘色深","根部細的較嫩","避免裂痕"],
-    store:"冷藏可放 1–2 週，葉子先切掉"
-  },
-  "白蘿蔔":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/5/56/Daikon_Radish.jpg",
-    tips:["表皮光滑、拿起來重","鬚根少、形狀直","避免黑斑"],
-    store:"冷藏 1–2 週，葉子先切掉"
-  },
-  "青江菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/2/2c/Bok_choy_in_basket.jpg",
-    tips:["葉片嫩綠、不泛黃","菜梗短且粗表示新鮮","手折會脆斷"],
-    store:"紙巾包住冷藏 2–3 天"
-  },
-  "菠菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/0/0b/Spinach_leaves.jpg",
-    tips:["葉片厚實有彈性","根部紅色較甜","避免葉子發黏"],
-    store:"冷藏 2–3 天，先洗會加速腐壞"
-  },
-  "地瓜葉":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/7/70/Ipomoea_batatas_leaves.jpg",
-    tips:["葉片完整、無破洞","莖柔軟不木質","顏色深綠最佳"],
-    store:"冷藏 2 天內食用最佳"
-  },
-  "小黃瓜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/9/92/Cucumbers_on_white_background.jpg",
-    tips:["顏色深綠、表皮有刺","太粗籽多","避免發黃"],
-    store:"冷藏 4–5 天"
-  },
-  "茄子":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Eggplant_and_cross_section.jpg",
-    tips:["表皮有光澤不皺","輕壓有彈性","蒂頭綠色新鮮"],
-    store:"冷藏 3–4 天"
-  },
-  "洋蔥":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/8/89/Onions.jpg",
-    tips:["外皮乾燥完整","拿起來硬實","無發芽"],
-    store:"陰涼通風 1–2 週，切開需冷藏"
-  },
-  "馬鈴薯":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/60/Potatoes.jpg",
-    tips:["表皮完整、不發芽","避免綠皮","手感扎實"],
-    store:"陰涼乾燥保存，避免冷藏"
-  },
-  "香菇":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/4/45/Shiitake_mushrooms.jpg",
-    tips:["菇傘厚實、邊緣內捲","表面乾爽無黏液","菇柄短粗"],
-    store:"冷藏 3–5 天，用紙袋保存"
-  },
-  "金針菇":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/5/5d/Enokitake.jpg",
-    tips:["菇柄白嫩無褐色","包裝內不積水","無酸味"],
-    store:"冷藏 4–5 天，開封後盡快食用"
-  },
-  "青椒":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/5/5d/Green_bell_peppers.jpg",
-    tips:["表皮光滑有光澤","拿起來硬挺","蒂頭綠色新鮮"],
-    store:"冷藏 5–7 天"
-  },
-  "四季豆":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/8/84/Green_beans.jpg",
-    tips:["豆莢細長筆直","折起來清脆","顏色鮮綠"],
-    store:"冷藏 3–4 天"
-  },
-  "花椰菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/3/31/Cauliflower_and_cross_section.jpg",
-    tips:["花球緊密、不鬆散","顏色翠綠或乳白","無黑點"],
-    store:"冷藏 4–5 天，避免水洗後存放"
-  },
-  "高麗菜苗":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/0/0d/Cabbage_seedlings.jpg",
-    tips:["葉片嫩小、無黃斑","莖不拉絲","氣味清新"],
-    store:"冷藏 2–3 天"
-  },
-  "韭菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/4/44/Chives.jpg",
-    tips:["葉片直挺、不軟塌","切口濕潤","氣味濃郁但不刺鼻"],
-    store:"冷藏 3–4 天，用紙包好"
-  },
-  "蘆筍":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/1/10/Asparagus_white.jpg",
-    tips:["嫩梗直挺、表面光滑","切口不乾枯","顏色翠綠"],
-    store:"冷藏 2–3 天，用濕紙巾包好"
-  },
-  "苦瓜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/c/c1/Bittermelon.jpg",
-    tips:["表面凸起均勻","顏色深綠","手感稍硬"],
-    store:"冷藏 3–5 天"
-  },
-  "絲瓜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/3/35/Luffa_aegyptiaca.jpg",
-    tips:["表面光滑、無斑點","蒂頭完整","拿起來有重量感"],
-    store:"冷藏 2–3 天"
-  },
-  "南瓜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/3/30/Pumpkin_and_cross_section.jpg",
-    tips:["表皮堅硬、顏色均勻","蒂頭完整","形狀飽滿"],
-    store:"陰涼乾燥 1–2 週"
-  },
-  "地瓜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/0/01/Sweet_potato.jpg",
-    tips:["表皮光滑無裂痕","手感扎實","顏色均勻"],
-    store:"陰涼乾燥 1–2 週"
-  },
-  "紅甜椒":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/7/7f/Red_bell_peppers.jpg",
-    tips:["表皮亮紅、硬挺","蒂頭綠色新鮮","無黑斑"],
-    store:"冷藏 5–7 天"
-  },
-  "黃甜椒":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/1/1e/Yellow_bell_peppers.jpg",
-    tips:["表皮亮黃、硬挺","蒂頭綠色新鮮","無軟斑"],
-    store:"冷藏 5–7 天"
-  },
-  "紫洋蔥":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/0/03/Red_onions.jpg",
-    tips:["表皮完整無裂","手感扎實","無發芽"],
-    store:"陰涼通風 1–2 週"
-  },
-  "韭黃":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/8/8f/Yellow_chives.jpg",
-    tips:["葉片嫩黃","根部新鮮","無乾枯"],
-    store:"冷藏 2–3 天"
-  },
-  "青花椰菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/3/39/Broccoli_and_cross_section.jpg",
-    tips:["花球緊密、顏色深綠","無黑斑","手感扎實"],
-    store:"冷藏 3–4 天"
-  },
-  "紅蘿蔔苗":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/61/Carrot_seedlings.jpg",
-    tips:["葉片翠綠、無黃斑","莖嫩","氣味清新"],
-    store:"冷藏 2–3 天"
-  },
-  "菜心":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/d/d0/Choy_sum.jpg",
-    tips:["莖短粗、葉片完整","無黃葉","手折清脆"],
-    store:"冷藏 2–3 天"
-  },
-  "苦菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/5/56/Garland_chrysanthemum.jpg",
-    tips:["葉片翠綠、無斑點","莖嫩","手折清脆"],
-    store:"冷藏 2–3 天"
-  },
-  "茼蒿":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/7/7a/Edible_chrysanthemum.jpg",
-    tips:["葉片完整無黑點","莖嫩","顏色鮮綠"],
-    store:"冷藏 2–3 天"
-  },
-  "生菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/b/bd/Lettuce.jpg",
-    tips:["葉片鬆軟、顏色翠綠","無黃葉","手感脆"],
-    store:"冷藏 2–3 天"
-  },
-  "羅曼生菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/64/Romaine_lettuce.jpg",
-    tips:["葉片長且脆","無黃葉","顏色均勻"],
-    store:"冷藏 2–3 天"
-  },
-  "萵苣":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/5/56/Leaf_lettuce.jpg",
-    tips:["葉片嫩綠、無斑點","手折脆","無黃葉"],
-    store:"冷藏 2–3 天"
-  },
-  "茴香":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/6d/Fennel_bulb_and_Fronds.jpg",
-    tips:["莖粗白、葉綠色新鮮","手感扎實","無裂痕"],
-    store:"冷藏 3–4 天"
-  },
-  "小白菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/9/9d/Choy_Pak_Choy.jpg",
-    tips:["葉片嫩綠、莖短粗","手折清脆","無黃葉"],
-    store:"冷藏 2–3 天"
-  },
-  "茭白筍":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/0/06/Zizania_latifolia.jpg",
-    tips:["外皮白淨、嫩","手感扎實","無黑斑"],
-    store:"冷藏 2–3 天"
-  },
-  "蕃薯葉":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/7/70/Ipomoea_batatas_leaves.jpg",
-    tips:["葉片完整、嫩","莖軟","顏色深綠"],
-    store:"冷藏 2 天內食用"
-  },
-  "油菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/8/87/Brassica_rapa_subsp._chinensis.jpg",
-    tips:["葉片完整、翠綠","莖短粗","手折清脆"],
-    store:"冷藏 2–3 天"
-  }
+  "高麗菜":{img:"https://images.unsplash.com/photo-1615485290382-441e4d049cb5",tips:["葉片緊密","重量扎實"],store:"冷藏 1 週",notice:"切開需包好"},
+  "白菜":{img:"https://images.unsplash.com/photo-1615484477778-ca3b77940c25",tips:["葉白嫩","不鬆散"],store:"冷藏 5 天",notice:"外葉老化需去除"},
+  "菠菜":{img:"https://images.unsplash.com/photo-1582515073490-dc99f9f46c8a",tips:["葉深綠"],store:"冷藏 2 天",notice:"汆燙較佳"},
+  "空心菜":{img:"https://images.unsplash.com/photo-1628348068343-c6a848d2b6b5",tips:["莖清脆"],store:"冷藏 2 天",notice:"不耐久放"},
+  "青江菜":{img:"https://images.unsplash.com/photo-1589927986089-35812386c4b8",tips:["莖白嫩"],store:"冷藏 3 天",notice:"葉黑勿食"},
+
+  "番茄":{img:"https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",tips:["色澤均勻"],store:"常溫",notice:"未熟不宜多吃"},
+  "小番茄":{img:"https://images.unsplash.com/photo-1592924357228-91a4daadcfea",tips:["顆粒飽滿"],store:"冷藏 3 天",notice:"避免擠壓"},
+  "茄子":{img:"https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2",tips:["表皮發亮"],store:"冷藏 3 天",notice:"切開易變色"},
+  "青椒":{img:"https://images.unsplash.com/photo-1603048297172-c92544798d5a",tips:["色澤鮮亮"],store:"冷藏 4 天",notice:"皺皮老化"},
+  "甜椒":{img:"https://images.unsplash.com/photo-1592841200221-a6898f307baa",tips:["顏色鮮豔"],store:"冷藏 4 天",notice:"避免壓傷"},
+
+  "苦瓜":{img:"https://images.unsplash.com/photo-1627751845321-1a0d7d6f5d41",tips:["顆粒大"],store:"冷藏 3 天",notice:"性寒"},
+  "小黃瓜":{img:"https://images.unsplash.com/photo-1604977046806-7c0b7b88c2a5",tips:["筆直"],store:"冷藏 3 天",notice:"怕凍"},
+  "絲瓜":{img:"https://images.unsplash.com/photo-1620916566398-39f1143e3f9b",tips:["嫩綠"],store:"冷藏 2 天",notice:"老了會硬"},
+  "南瓜":{img:"https://images.unsplash.com/photo-1506807803488-8eafc15323e0",tips:["外皮硬"],store:"常溫",notice:"切開需冷藏"},
+  "玉米":{img:"https://images.unsplash.com/photo-1597848212624-a19eb35e2651",tips:["鬚濕潤"],store:"冷藏 2 天",notice:"越新鮮越甜"},
+
+  "紅蘿蔔":{img:"https://images.unsplash.com/photo-1582515073490-dc99f9f46c8a",tips:["橘色深"],store:"冷藏 2 週",notice:"葉切除"},
+  "白蘿蔔":{img:"https://images.unsplash.com/photo-1615485500704-8e990f9900c0",tips:["沉重"],store:"冷藏 1 週",notice:"中空老化"},
+  "洋蔥":{img:"https://images.unsplash.com/photo-1587049352851-8d0a0d47b7f1",tips:["外皮乾"],store:"陰涼",notice:"避免潮濕"},
+  "蒜頭":{img:"https://images.unsplash.com/photo-1587049352841-b4f3a6f7b0e1",tips:["蒜瓣緊"],store:"乾燥",notice:"發霉不可食"},
+  "薑":{img:"https://images.unsplash.com/photo-1601004890684-06c5bd10f8c4",tips:["辛香"],store:"冷藏",notice:"發霉不可食"},
+
+  "地瓜":{img:"https://images.unsplash.com/photo-1582515073490-0ed4b2b6d8c3",tips:["不發芽"],store:"通風",notice:"勿冷藏"},
+  "馬鈴薯":{img:"https://images.unsplash.com/photo-1582515073490-bbbf7c6f8c1c",tips:["不發芽"],store:"避光",notice:"發芽不可食"}
 };
 
 function searchVeg(){
-  const keyword = document.getElementById("searchInput").value.trim();
-  const box = document.getElementById("results");
-  box.innerHTML = "";
-  if(keyword === "") return;
+  const key=document.getElementById("searchInput").value.trim();
+  const box=document.getElementById("results");
+  box.innerHTML="";
+  if(!key) return;
 
   Object.keys(veggies).forEach(name=>{
-    if(name.includes(keyword)){
-      const data = veggies[name];
-      const html = `
-        <div class="tip-card">
-          <div class="name">${name}</div>
-          <img src="${data.img}" alt="${name}">
-          <div><strong>挑選技巧：</strong></div>
-          <ul>${data.tips.map(t => `<li>${t}</li>`).join("")}</ul>
-          <div class="muted"><strong>保存方式：</strong>${data.store}</div>
-        </div>
-      `;
-      box.innerHTML += html;
+    if(name.includes(key)){
+      const v=veggies[name];
+      box.innerHTML+=`
+      <div class="tip-card">
+        <div class="name">${name}</div>
+        <img src="${v.img}">
+        <ul>${v.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+        <div class="muted">保存方式：${v.store}</div>
+        <div class="muted">注意事項：${v.notice}</div>
+      </div>`;
     }
   });
-
-  if(box.innerHTML === ""){
-    box.innerHTML = "<p class='muted'>查無此蔬菜，請試試其他名稱。</p>";
-  }
 }
 </script>
-
 </body>
+</html>
+
 </html>
 
 
