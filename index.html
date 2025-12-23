@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>農夫市集-蔬菜購買技巧查詢</title>
+<title>菜市場買菜攻略查詢</title>
 
 <style>
 /* 全站 box-sizing，避免跑版 */
@@ -127,31 +127,88 @@ ul{
 
 <script>
 const veggies = {
-  "高麗菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/6f/Cabbage_and_cross_section_on_white.jpg",
-    tips:["葉片緊密、拿起來有重量感","切口白淨、不乾裂","外葉不要太亮綠"],
-    store:"整顆冷藏約 1 週；切開後包好保存"
-  },
-  "番茄":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/8/88/Bright_red_tomato_and_cross_section02.jpg",
-    tips:["表皮光滑、色澤均勻","拿起來沉甸甸較多汁","蒂頭新鮮不乾枯"],
-    store:"常溫保存風味佳；熟透後冷藏 2–3 天"
-  },
-  "玉米":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/6/67/Corncobs.jpg",
-    tips:["外殼翠綠、玉米鬚濕潤","玉米粒飽滿不凹陷","越新鮮越甜"],
-    store:"冷藏 2–3 天，越快煮越好"
-  },
-  "空心菜":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/5/57/Ipomoea_aquatica.jpg",
-    tips:["莖細嫩、葉片完整","折起來要清脆","沒有黑斑"],
-    store:"冷藏 2–3 天內食用最佳"
-  },
-  "紅蘿蔔":{
-    img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg",
-    tips:["表皮平滑、橘色深","根部細的較嫩","避免裂痕"],
-    store:"冷藏可放 1–2 週，葉子先切掉"
-  }
+"高麗菜":{
+img:"https://upload.wikimedia.org/wikipedia/commons/6/6f/Cabbage_and_cross_section_on_white.jpg",
+tips:["葉片緊密、拿起來有重量感","切口白淨、不乾裂","外葉不要太亮綠"],
+store:"整顆冷藏約 1 週；切開後包好保存"
+},
+"番茄":{
+img:"https://upload.wikimedia.org/wikipedia/commons/8/88/Bright_red_tomato_and_cross_section02.jpg",
+tips:["表皮光滑、色澤均勻","拿起來沉甸甸較多汁","蒂頭新鮮不乾枯"],
+store:"常溫保存風味佳；熟透後冷藏 2–3 天"
+},
+"玉米":{
+img:"https://upload.wikimedia.org/wikipedia/commons/6/67/Corncobs.jpg",
+tips:["外殼翠綠、玉米鬚濕潤","玉米粒飽滿不凹陷","越新鮮越甜"],
+store:"冷藏 2–3 天，越快煮越好"
+},
+"空心菜":{
+img:"https://upload.wikimedia.org/wikipedia/commons/5/57/Ipomoea_aquatica.jpg",
+tips:["莖細嫩、葉片完整","折起來要清脆","沒有黑斑"],
+store:"冷藏 2–3 天內食用最佳"
+},
+"紅蘿蔔":{
+img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg",
+tips:["表皮平滑、橘色深","根部細的較嫩","避免裂痕"],
+store:"冷藏可放 1–2 週，葉子先切掉"
+},
+"白蘿蔔":{
+img:"https://upload.wikimedia.org/wikipedia/commons/4/42/Daikon.jpg",
+tips:["表皮光滑、重量扎實","避免中空","葉子新鮮"],
+store:"冷藏 1 週，去葉保存"
+},
+"青椒":{
+img:"https://upload.wikimedia.org/wikipedia/commons/1/1d/Green_pepper.jpg",
+tips:["表皮光亮","果肉厚實","蒂頭翠綠"],
+store:"冷藏 3–5 天"
+},
+"甜椒":{
+img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Bell_pepper.jpg",
+tips:["顏色鮮豔","表皮無皺","有重量"],
+store:"冷藏 4–5 天"
+},
+"洋蔥":{
+img:"https://upload.wikimedia.org/wikipedia/commons/1/1f/Onion.jpg",
+tips:["外皮乾燥","沒有發芽","拿起來結實"],
+store:"通風陰涼處可放 2 週"
+},
+"蒜頭":{
+img:"https://upload.wikimedia.org/wikipedia/commons/5/5c/Garlic.jpg",
+tips:["蒜瓣緊實","外皮乾","無霉斑"],
+store:"陰涼乾燥處保存"
+},
+"薑":{
+img:"https://upload.wikimedia.org/wikipedia/commons/5/5f/Ginger.jpg",
+tips:["表皮光滑","氣味辛香","不乾癟"],
+store:"冷藏或冷凍皆可"
+},
+"地瓜":{
+img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Sweet_potato.jpg",
+tips:["表皮完整","無發芽","重量扎實"],
+store:"陰涼通風處"
+},
+"馬鈴薯":{
+img:"https://upload.wikimedia.org/wikipedia/commons/6/60/Potatoes.jpg",
+tips:["表皮平滑","避免發芽","無綠皮"],
+store:"陰涼避光保存"
+},
+"茄子":{
+img:"https://upload.wikimedia.org/wikipedia/commons/4/44/Eggplant.jpg",
+tips:["表皮發亮","按壓有彈性","蒂頭新鮮"],
+store:"冷藏 2–3 天"
+},
+"小黃瓜":{
+img:"https://upload.wikimedia.org/wikipedia/commons/9/96/Cucumber.jpg",
+tips:["顏色均勻","表皮有刺","不軟爛"],
+store:"冷藏 3–4 天"
+},
+"絲瓜":{
+img:"https://upload.wikimedia.org/wikipedia/commons/5/5c/Luffa.jpg",
+tips:["表皮嫩綠","拿起來沉","無變黃"],
+store:"冷藏 2–3 天"
+},
+"苦瓜":{
+img:"https://upload.wikimedia.org/wikipedia/commons/4/4d/Bitter_melon.jpg",
 };
 
 function searchVeg(){
